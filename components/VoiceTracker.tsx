@@ -133,7 +133,7 @@ export default function VoiceTracker() {
               className={`w-full md:w-100 flex items-center justify-center gap-2 py-3 rounded-full font-semibold shadow-md transition cursor-pointer ${
                 isRecording
                   ? "bg-red-500 text-white! animate-pulse"
-                  : colors.progress + " text-white!"
+                  :  "bg-(--color-accent) text-white!"
               }`}
             >
               {isRecording ? <StopCircle size={20} /> : <Mic size={20} />}

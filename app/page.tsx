@@ -26,6 +26,7 @@ export default function Home() {
       <main className="flex flex-col items-center w-full max-w-2xl gap-6 mt-4">
         {/* Intro text */}
         <div className="text-center">
+
           <p className={`text-sm opacity-80`}>
             Track your speaking sessions, measure your words per minute (WPM),
             and see how much time you actually spend talking. Start recording
