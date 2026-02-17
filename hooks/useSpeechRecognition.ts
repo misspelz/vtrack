@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export const useSpeechRecognition = (onResult: (text: string, wordCount: number) => void) => {
   const recognitionRef = useRef<any>(null);

@@ -7,6 +7,7 @@ import { Mic, StopCircle, RotateCcw, Copy } from "lucide-react";
 import { useThemeStore } from "@/store/themeStore";
 import { darkColors, lightColors } from "@/lib/themeColors";
 import { calculateWPM, formatTime } from "@/utils";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 export default function VoiceTracker() {
   const { isDark } = useThemeStore();
@@ -20,7 +21,11 @@ export default function VoiceTracker() {
   const [copied, setCopied] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
 
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useSpeechRecognition((text, words) => {
+    setTranscript(text);
+    setWordCount(words);
+  });
+
   const fullTranscriptRef = useRef("");
   const lastWordCountRef = useRef(0);
 
@@ -40,35 +45,6 @@ export default function VoiceTracker() {
     }
     return () => clearInterval(interval);
   }, [isRecording, wordCount]);
-
-  // Speech recognition setup
-  useEffect(() => {
-    if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
-      const recognition = new (window as any).webkitSpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = "en-US";
-
-      recognition.onresult = (event: any) => {
-        let interimText = "";
-        let finalText = "";
-
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const text = event.results[i][0].transcript;
-          if (event.results[i].isFinal) finalText += text + " ";
-          else interimText += text + " ";
-        }
-
-        fullTranscriptRef.current += finalText;
-        const combined = fullTranscriptRef.current + interimText;
-
-        setTranscript(combined);
-        setWordCount(combined.trim().split(/\s+/).filter(Boolean).length);
-      };
-
-      recognitionRef.current = recognition;
-    }
-  }, []);
 
   const toggleRecording = () => {
     const recognition = recognitionRef.current;
@@ -133,7 +109,7 @@ export default function VoiceTracker() {
               className={`w-full md:w-100 flex items-center justify-center gap-2 py-3 rounded-full font-semibold shadow-md transition cursor-pointer ${
                 isRecording
                   ? "bg-red-500 text-white! animate-pulse"
-                  :  "bg-(--color-accent) text-white!"
+                  : "bg-(--color-accent) text-white!"
               }`}
             >
               {isRecording ? <StopCircle size={20} /> : <Mic size={20} />}
@@ -173,21 +149,22 @@ export default function VoiceTracker() {
         className={`h-px my-6 ${isDark ? "bg-zinc-700" : "bg-blue-200"}`}
       />
 
-     {/* Transcript */}
-<div
-  className={`h-32 overflow-auto rounded-xl p-4 text-sm w-full 
+      {/* Transcript */}
+      <div
+        className={`h-32 overflow-auto rounded-xl p-4 text-sm w-full 
               transition-colors duration-300
-              ${isDark 
-                ? "bg-zinc-800 text-gray-100 border border-zinc-700" 
-                : "bg-blue-100 text-blue-900 border border-blue-200"}`}
->
-  {transcript || (
-    <span className="opacity-50">
-      Start speaking… transcript shows here.
-    </span>
-  )}
-</div>
-
+              ${
+                isDark
+                  ? "bg-zinc-800 text-gray-100 border border-zinc-700"
+                  : "bg-blue-100 text-blue-900 border border-blue-200"
+              }`}
+      >
+        {transcript || (
+          <span className="opacity-50">
+            Start speaking… transcript shows here.
+          </span>
+        )}
+      </div>
     </div>
   );
 }
