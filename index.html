@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation Word Counter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Presentation Word Counter</h1>
+            <p>Practice your speech and track key metrics</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <textarea 
+                    id="textInput" 
+                    class="text-area" 
+                    placeholder="Paste your presentation text here or start typing...">
+                </textarea>
+                <button class="clear-btn" onclick="clearText()">Clear All</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Words</div>
+                    <div class="stat-value" id="wordCount">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Characters</div>
+                    <div class="stat-value" id="charCount">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Sentences</div>
+                    <div class="stat-value" id="sentenceCount">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Avg Words/Sentence</div>
+                    <div class="stat-value" id="avgWordsPerSentence">0</div>
+                </div>
+
+                <div class="stat-card highlight">
+                    <div class="stat-label">Reading Time</div>
+                    <div class="stat-value" id="readingTime">0 min</div>
+                </div>
+
+                <div class="stat-card highlight">
+                    <div class="stat-label">Speaking Time</div>
+                    <div class="stat-value" id="speakingTime">0 min</div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>💡 Speaking Tips</h3>
+                <ul>
+                    <li>Average speaking speed: 150 words/minute</li>
+                    <li>Aim for short sentences (10-15 words average)</li>
+                    <li>Good practice: speak slower, emphasize key points</li>
+                    <li>Include pauses for audience engagement</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
