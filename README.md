@@ -15,10 +15,10 @@ VTrack is a lightweight **Next.js** application designed to help you monitor you
 
 ---
 
-## Screenshots
+## Banner
 
 <!-- Replace these with actual screenshots of your app -->
-![VTrack Screenshot](https://image2url.com/r2/default/images/1771350613440-8204426d-5653-434f-9aff-7d0682eef66e.png)
+![VTrack Banner](./public/vtrack-banner.png)
 
 ---
 
