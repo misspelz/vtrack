@@ -1,3 +1,9 @@
+## Banner
+
+![VTrack Banner](./public/vtrack-banner.png)
+
+---
+
 # VTrack – Simple Voice Tracker for Public Speaking
 
 VTrack is a lightweight **Next.js** application designed to help you monitor your speaking sessions in real time. Inspired by *Talk Like TED*, it lets you track your speaking pace, active time, and live transcript.
@@ -12,13 +18,6 @@ VTrack is a lightweight **Next.js** application designed to help you monitor you
 - **Start/Stop Recording:** Easily control your session with intuitive buttons.  
 - **Reset & Copy:** Clear your session or copy the transcript to clipboard.  
 - **Light/Dark Mode:** Theme support based on system preference or manual toggle.  
-
----
-
-## Banner
-
-<!-- Replace these with actual screenshots of your app -->
-![VTrack Banner](./public/vtrack-banner.png)
 
 ---
 
