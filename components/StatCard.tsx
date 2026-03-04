@@ -25,14 +25,14 @@ const zoneBadgeMap: Record<WpmZoneCls, string> = {
 
 export default function StatCard({ label, value, unit, isActive = false, valueColor = "default", badge }: StatCardProps) {
   return (
-    <div className={`relative bg-white dark:bg-zinc-900 border p-5 overflow-hidden transition-colors duration-300 ${isActive ? "border-amber-400 dark:border-amber-500/60" : "border-zinc-200 dark:border-zinc-800"}`}>
+    <div className={`relative bg-white dark:bg-zinc-900 border px-2 py-5 md:p-5 overflow-hidden transition-colors duration-300 ${isActive ? "border-amber-400 dark:border-amber-500/60" : "border-zinc-200 dark:border-zinc-800"}`}>
       <div className={`absolute bottom-0 left-0 h-0.5 bg-amber-400 transition-all duration-300 ${isActive ? "w-full" : "w-0"}`} />
 
       <p className="text-[9px] tracking-[3px] text-zinc-400 dark:text-zinc-500 uppercase mb-2 font-mono">
         {label}
       </p>
 
-      <p className={`font-display font-bold text-5xl leading-none tracking-tight ${valueColorMap[valueColor]}`}>
+      <p className={`font-display font-bold text-3xl md:text-5xl leading-none tracking-tight ${valueColorMap[valueColor]}`}>
         {value}
       </p>
 

@@ -49,10 +49,10 @@ export default function VTrackPage() {
     zone.cls === "ideal"
       ? "green"
       : zone.cls === "slow"
-      ? "red"
-      : zone.cls === "fast"
-      ? "amber"
-      : "default";
+        ? "red"
+        : zone.cls === "fast"
+          ? "amber"
+          : "default";
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 transition-colors duration-300 flex flex-col items-center px-4 py-6 pb-10 relative overflow-hidden">
@@ -67,26 +67,31 @@ export default function VTrackPage() {
 
       <div className="relative z-10 w-full max-w-3xl flex flex-col gap-3">
         {/* ── Header ── */}
-        <div className="flex items-end justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 mb-2">
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 mb-2">
           <div>
             <p className="text-[9px] tracking-[3px] text-zinc-400 dark:text-zinc-500 uppercase font-mono mb-1">
               Voice Performance Monitor
             </p>
-            <h1 className="font-display font-black text-[42px] leading-none text-zinc-900 dark:text-zinc-100 tracking-tight">
-              V<span className="text-amber-400 drop-shadow-[0_0_20px_rgba(245,158,11,0.6)]">TRACK</span>
+            <h1 className="font-display font-black text-[32px] sm:text-[42px] leading-none text-zinc-900 dark:text-zinc-100 tracking-tight">
+              V
+              <span className="text-amber-400 drop-shadow-[0_0_20px_rgba(245,158,11,0.6)]">
+                TRACK
+              </span>
             </h1>
           </div>
           <button
             onClick={() => setIsDark((d) => !d)}
             className="
-              border border-zinc-300 dark:border-zinc-700
-              text-zinc-400 dark:text-zinc-500
-              font-mono text-[10px] tracking-[2px] uppercase px-3 py-1.5
-              hover:border-amber-500 hover:text-amber-500
-              transition-colors duration-200
-            "
+      shrink-0 ml-4
+      border border-zinc-300 dark:border-zinc-700
+      text-zinc-400 dark:text-zinc-500
+      font-mono text-[9px] sm:text-[10px] tracking-[2px] uppercase
+      px-2.5 sm:px-3 py-1.5
+      hover:border-amber-500 hover:text-amber-500
+      transition-colors duration-200
+    "
           >
-            {isDark ? "Light Mode" : "Dark Mode"}
+            {isDark ? "Light" : "Dark"}
           </button>
         </div>
 
@@ -125,9 +130,10 @@ export default function VTrackPage() {
           <div
             className={`
               w-2 h-2 rounded-full transition-all duration-300
-              ${isRecording
-                ? "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)] animate-pulse"
-                : "bg-zinc-400 dark:bg-zinc-600"
+              ${
+                isRecording
+                  ? "bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)] animate-pulse"
+                  : "bg-zinc-400 dark:bg-zinc-600"
               }
             `}
           />
