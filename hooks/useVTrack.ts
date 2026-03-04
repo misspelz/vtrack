@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useCallback } from "react";
@@ -39,6 +38,8 @@ export function useVTrack(): VTrackState {
   const analyserRef = useRef<AnalyserNode | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  // Accumulates confirmed final segments across recognition restarts (fixes mobile duplicate bug)
+  const finalTranscriptRef = useRef<string>("");
 
   const animateVU = useCallback(() => {
     if (!analyserRef.current) return;
@@ -81,7 +82,6 @@ export function useVTrack(): VTrackState {
       src.connect(analyserRef.current);
       vuRafRef.current = requestAnimationFrame(animateVU);
 
-      // Resolve the constructor safely across Chrome and older webkit prefix
       const SR: SpeechRecognitionCtor | undefined =
         (window as Window & { SpeechRecognition?: SpeechRecognitionCtor }).SpeechRecognition ??
         (window as Window & { webkitSpeechRecognition?: SpeechRecognitionCtor }).webkitSpeechRecognition;
@@ -98,14 +98,34 @@ export function useVTrack(): VTrackState {
       recRef.current = rec;
 
       sessionStartRef.current = Date.now();
+      finalTranscriptRef.current = "";
 
       rec.onresult = (e: SpeechRecognitionEvent) => {
-        let final = "";
-        for (let i = 0; i < e.results.length; i++) {
-          if (e.results[i].isFinal) final += e.results[i][0].transcript + " ";
+        // Only process results from this event's resultIndex onwards —
+        // this prevents mobile Chrome from re-emitting old finals on restart
+        let newFinals = "";
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          if (e.results[i].isFinal) {
+            newFinals += e.results[i][0].transcript + " ";
+          }
         }
-        setTranscript(final);
-        const wc = countWords(final);
+
+        if (newFinals) {
+          finalTranscriptRef.current += newFinals;
+        }
+
+        // Build interim portion (not yet final) for live preview
+        let interim = "";
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          if (!e.results[i].isFinal) {
+            interim += e.results[i][0].transcript;
+          }
+        }
+
+        const displayed = finalTranscriptRef.current + interim;
+        setTranscript(displayed);
+
+        const wc = countWords(finalTranscriptRef.current);
         setWordCount(wc);
         const elapsed = (Date.now() - (sessionStartRef.current ?? Date.now())) / 1000 / 60;
         if (elapsed > 0) setWpm(Math.round(wc / elapsed));
@@ -123,6 +143,7 @@ export function useVTrack(): VTrackState {
 
   const resetSession = useCallback(() => {
     stopRecording();
+    finalTranscriptRef.current = "";
     setTranscript("");
     setWordCount(0);
     setTotalTime(0);
